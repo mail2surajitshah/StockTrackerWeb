@@ -1,0 +1,20 @@
+.card { background: #fff; border: 1px solid #e3e6ea; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
+.header { display: flex; justify-content: space-between; align-items: center; }
+h2 { margin: 0 0 12px; font-size: 1.1rem; }
+
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: end; }
+label { display: flex; flex-direction: column; font-size: 0.85rem; gap: 4px; color: #444; }
+input { padding: 8px; border: 1px solid #c7ccd1; border-radius: 4px; font-size: 0.95rem; }
+input.ng-invalid.ng-touched { border-color: #d33; }
+
+button { padding: 8px 14px; border: 1px solid #c7ccd1; background: #f6f7f9; border-radius: 4px; cursor: pointer; }
+button.primary { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+button.danger { color: #b42318; }
+.actions { display: flex; gap: 8px; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 8px 10px; border-bottom: 1px solid #eceef1; text-align: left; }
+th.num, td.num { text-align: right; }
+.row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+.error { background: #fdecea; color: #b42318; padding: 10px 14px; border-radius: 6px; margin-bottom: 20px; }

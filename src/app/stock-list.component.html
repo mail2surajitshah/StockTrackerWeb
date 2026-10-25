@@ -1,0 +1,74 @@
+<section class="card">
+  <h2>{{ editingId() === null ? 'Add stock' : 'Update stock' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="form">
+    <label>
+      Symbol
+      <input formControlName="symbol" placeholder="e.g. MSFT" />
+    </label>
+    <label>
+      Name
+      <input formControlName="name" placeholder="Company name" />
+    </label>
+    <label>
+      Quantity
+      <input type="number" formControlName="quantity" min="0" />
+    </label>
+    <label>
+      Price
+      <input type="number" step="0.01" formControlName="price" min="0" />
+    </label>
+
+    <div class="actions">
+      <button type="submit" class="primary">{{ editingId() === null ? 'Add' : 'Save' }}</button>
+      @if (editingId() !== null) {
+        <button type="button" (click)="cancel()">Cancel</button>
+      }
+    </div>
+  </form>
+</section>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+<section class="card">
+  <div class="header">
+    <h2>Stock details</h2>
+    <button type="button" (click)="load()">Refresh</button>
+  </div>
+
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else if (stocks().length === 0) {
+    <p>No stocks yet.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Name</th>
+          <th class="num">Quantity</th>
+          <th class="num">Price</th>
+          <th class="num">Value</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of stocks(); track s.id) {
+          <tr>
+            <td>{{ s.symbol }}</td>
+            <td>{{ s.name }}</td>
+            <td class="num">{{ s.quantity }}</td>
+            <td class="num">{{ s.price | currency }}</td>
+            <td class="num">{{ s.quantity * s.price | currency }}</td>
+            <td class="row-actions">
+              <button type="button" (click)="edit(s)">Edit</button>
+              <button type="button" class="danger" (click)="remove(s)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>
