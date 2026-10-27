@@ -12,10 +12,13 @@
 // }
 import { Component } from '@angular/core';
 import { StockListComponent } from './stock-list.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [StockListComponent],
+  // imports: [StockListComponent],
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

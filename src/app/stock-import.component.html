@@ -1,0 +1,79 @@
+<section class="card">
+  <h2>Import stock updates from Excel</h2>
+  <p class="hint">
+    Upload an <strong>.xlsx</strong>, <strong>.xls</strong> or <strong>.csv</strong> file. The first row of the first sheet must contain the headers
+    <code>id</code>, <code>price</code>, <code>changePercent</code>, <code>companyName</code>
+    (any order, case-insensitive).
+  </p>
+
+  <input type="file" accept=".xlsx,.xls,.csv" (change)="onFileSelected($event)" />
+
+  @if (parsing()) {
+    <p>Reading file…</p>
+  }
+  @if (fileError()) {
+    <p class="error">{{ fileError() }}</p>
+  }
+</section>
+
+@if (fileName() && !fileError() && !parsing()) {
+  <section class="card">
+    <div class="summary">
+      <span><strong>{{ fileName() }}</strong></span>
+      <span class="ok">{{ items().length }} valid row(s)</span>
+      @if (errors().length > 0) {
+        <span class="bad">{{ errors().length }} row(s) with problems</span>
+      }
+    </div>
+
+    @if (errors().length > 0) {
+      <div class="error">
+        <p>Fix these rows in the file and upload it again. Nothing is sent while there are problems.</p>
+        <ul>
+          @for (e of errors(); track e.row) {
+            <li>Row {{ e.row }}: {{ e.message }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    @if (items().length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th class="num">Id</th>
+            <th>Company name</th>
+            <th class="num">Price</th>
+            <th class="num">Change %</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of preview(); track s.id) {
+            <tr>
+              <td class="num">{{ s.id }}</td>
+              <td>{{ s.companyName }}</td>
+              <td class="num">{{ s.price }}</td>
+              <td class="num">{{ s.changePercent }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      @if (items().length > previewLimit) {
+        <p class="hint">Showing the first {{ previewLimit }} of {{ items().length }} rows. All rows will be sent.</p>
+      }
+    }
+
+    <div class="actions">
+      <button type="button" class="primary" [disabled]="!canSubmit()" (click)="submit()">
+        {{ submitting() ? 'Updating…' : 'Update ' + items().length + ' stock(s)' }}
+      </button>
+    </div>
+
+    @if (result()) {
+      <p class="success">{{ result() }}</p>
+    }
+    @if (submitError()) {
+      <p class="error">{{ submitError() }}</p>
+    }
+  </section>
+}

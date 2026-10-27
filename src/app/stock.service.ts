@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Stock } from '../app/stock.model';
 import { environment } from '../environments/environment';
+import { StockUpdate } from './stock-update.model';
 
 @Injectable({ providedIn: 'root' })
 export class StockService {
@@ -28,4 +29,13 @@ export class StockService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  // Assumed endpoint: PUT /api/stocks/bulk. Change the verb/path here to match your API.
+  bulkUpdate(items: StockUpdate[]): Observable<unknown> {
+    return this.http.put<unknown>(`${this.baseUrl}/bulk`, items);
+  }
+
+  // delete(id: number): Observable<void> {
+  //   return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  // }
 }
